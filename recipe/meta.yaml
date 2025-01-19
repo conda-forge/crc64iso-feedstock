@@ -1,27 +1,31 @@
 {% set name = "crc64iso" %}
 {% set version = "0.0.2" %}
+{% set sha256 = "8e5dade08ed9325d25e2c38d682b5387e6c53fc533ee87d2db258d27155b4e5d" %}
 
 package:
   name: "{{ name|lower }}"
   version: "{{ version }}"
 
 source:
-  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
-  sha256: 8e5dade08ed9325d25e2c38d682b5387e6c53fc533ee87d2db258d27155b4e5d
+  url: "https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+  sha256: {{ sha256 }}
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script: "{{ PYTHON }} -m pip install . --ignore-installed --no-deps -vv"
 
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python {{ python_min }}
+    - setuptools
   run:
-    - python >=3.6
+    - python >={{ python_min }}
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - crc64iso
 
